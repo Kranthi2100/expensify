@@ -67,7 +67,7 @@ export const setExpense = (expenses) => ({
 
 export const startSetExpense = () => {
   return (dispatch) => {
-    return database.ref('expenses').once('value').then((snapshot) => {
+    return database.ref('expenses').once('value').then(snapshot => {
       let expense = []
       snapshot.forEach((childSnapshot) => {
         expense.push({ id: childSnapshot.key, ...childSnapshot.val() });

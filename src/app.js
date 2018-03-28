@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import AppRouter from './routers/AppRouter';
 import configureStore from './store/configureStore';
-import { startSetExpense } from './actions/expenses';
+import { startSetExpense, setExpense } from './actions/expenses';
 import { setTextFilter } from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
+import database,{ firebase } from './firebase/firebase';
+
 import 'normalize.css/normalize.css';
 import 'react-dates/lib/css/_datepicker.css';
 import './styles/styles.scss';
@@ -18,7 +20,6 @@ const store = configureStore();
 
 const state = store.getState();
 const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
-console.log(visibleExpenses);
 
 const jsx = (
   <Provider store={store}>
@@ -26,4 +27,20 @@ const jsx = (
   </Provider>
 );
 
-store.dispatch(startSetExpense()).then(()=>ReactDOM.render(jsx, document.getElementById('app')));
+store.dispatch(startSetExpense()).then(() => ReactDOM.render(jsx, document.getElementById('app')));
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log('logged in!');
+  } else {
+    console.log('logged out!')
+  }
+})
+
+database.ref('expenses').on('value', snapshot => {
+  let expenses = [];
+  snapshot.forEach( childSnapshot => {
+    expenses.push(id: childSnapshot.key, ...childSnapshot.val());
+  })
+  store.dispatch(setExpense(expenses))
+})
