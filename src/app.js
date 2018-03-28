@@ -36,11 +36,3 @@ firebase.auth().onAuthStateChanged((user) => {
     console.log('logged out!')
   }
 })
-
-database.ref('expenses').on('value', snapshot => {
-  let expenses = [];
-  snapshot.forEach( childSnapshot => {
-    expenses.push({id: childSnapshot.key, ...childSnapshot.val()});
-  })
-  store.dispatch(setExpense(expenses))
-})

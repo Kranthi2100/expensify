@@ -26,7 +26,7 @@ test('on click simulate removeExpense', ()=>{
     expect(removeExpense).toHaveBeenLastCalledWith(
        {id:expenses[0].id}
     );
-    expect(history.push).toHaveBeenLastCalledWith('/');
+    expect(history.push).toHaveBeenLastCalledWith('/dashboard');
 })
 
 test('onSubmit expenses', ()=>{
@@ -34,5 +34,5 @@ test('onSubmit expenses', ()=>{
     expect(editExpense).toHaveBeenLastCalledWith(
         expenses[0].id,
         expenses[0]);
-    expect(history.push).toHaveBeenLastCalledWith('/')
+    expect(history.push).toHaveBeenLastCalledWith('/dashboard')
 })
