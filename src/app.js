@@ -28,9 +28,9 @@ const jsx = (
   </Provider>
 );
 
-let appHasRendered =false;
+let appHasRendered = false;
 const render = () => {
-  if(!appHasRendered){
+  if (!appHasRendered) {
     appHasRendered = true;
     ReactDOM.render(jsx, document.getElementById('app'))
   }
@@ -38,15 +38,17 @@ const render = () => {
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    store.dispatch(login(user.uid))
-    store.dispatch(startSetExpense()).then(()=>{
+    console.log("logged in");
+    store.dispatch(login(user.uid));
+    store.dispatch(startSetExpense()).then(() => {
       render();
-      if(history.location.pathname === "/")
-        history.push('/dashboard')
+      if (history.location.pathname === "/")
+        history.push('/dashboard');
     });
   } else {
-    store.dispatch(logout())
-    history.push('/')
+    console.log("logged out");
+    store.dispatch(logout());
+    history.push('/');
     render();
   }
 })
